@@ -1,0 +1,26 @@
+ezpublish:
+    siteaccess:
+        # Available siteaccesses
+        list:
+            - ezdemo_site
+        # Siteaccess groups. Use them to group common settings.
+        groups:
+            behat_group: [ezdemo_site]
+        default_siteaccess: ezdemo_site
+        match:
+            Map\Host:
+                localhost: ezdemo_site
+
+    system:
+        behat_group:
+            database:
+                dsn: "mysql://root@localhost/behattestdb"
+            languages: [eng-GB, eng-US]
+            legacy_mode: false
+
+stash:
+    caches:
+        default:
+            handlers: [ FileSystem ]
+            inMemory: true
+            registerDoctrineAdapter: false

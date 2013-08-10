@@ -1,0 +1,35 @@
+language: php
+
+# run tests on php 5.4 as it's the main supported version, and we need min 5.4 for integrated web server
+php:
+  - 5.4
+
+# list of paths to execute
+env:
+  - TEST_PATH="vendor/ezsystems/demobundle/EzSystems/DemoBundle/Features/"
+
+
+# test only master (+ Pull requests)
+branches:
+  only:
+    - master
+/
+# setup requirements for running tests
+before_script:
+  - composer install --dev --prefer-dist
+  - git clone https://github.com/ezsystems/ezpublish-legacy.git ezpublish_legacy
+  - mysql -e "CREATE DATABASE IF NOT EXISTS behattestdb;" -uroot
+  - ENVIRONMENT=behat
+  - php ezpublish/console --no-interaction --env=behat ezpublish:test:init_db
+  - php ezpublish/console --no-interaction --env=behat server:run -r ../bin/ezrouter.php localhost:9898
+
+# execute phpunit as the script command
+script: "bin/behat $TEST_PATH"
+
+# disable mail notifications
+notification:
+  email: false
+
+# reduce depth (history) of git checkout
+git:
+  depth: 30

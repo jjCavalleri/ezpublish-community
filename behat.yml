@@ -1,7 +1,7 @@
 default:
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: 'http://ezpublish.local'
+            base_url: 'http://localhost:9898'
             goutte: ~
             sahi: ~
 
@@ -12,3 +12,5 @@ default:
             kernel:
                 path: ezpublish/EzPublishKernel.php
                 class: EzPublishKernel
+                env: behat
+                debug: true
