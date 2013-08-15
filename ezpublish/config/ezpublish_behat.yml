@@ -14,7 +14,11 @@ ezpublish:
     system:
         behat_group:
             database:
-                dsn: "mysql://root@localhost/behattestdb"
+                type: mysql
+                user: root
+                password: publish44
+                server: localhost
+                database_name: behattestdb
             languages: [eng-GB, eng-US]
             legacy_mode: false
 
