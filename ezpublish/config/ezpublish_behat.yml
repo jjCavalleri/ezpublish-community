@@ -2,15 +2,17 @@ ezpublish:
     siteaccess:
         # Available siteaccesses
         list:
-            - ezdemo_site
+            - behat_site
+            - behat_site_admin
         # Siteaccess groups. Use them to group common settings.
         groups:
-            behat_group: [ezdemo_site]
-        default_siteaccess: ezdemo_site
+            behat_group: [behat_site, behat_site_admin]
+        default_siteaccess: behat_site
         match:
+            Map\URI:
+                behat_site_admin: behat_site_admin
             Map\Host:
-                localhost: ezdemo_site
-
+                localhost: behat_site
     system:
         behat_group:
             database:
@@ -20,7 +22,11 @@ ezpublish:
                 server: localhost
                 database_name: behattestdb
             languages: [eng-GB, eng-US]
+            var_dir: var/behat_site
+        behat_site:
             legacy_mode: false
+        behat_site_admin:
+            legacy_mode: true
 
 stash:
     caches:
