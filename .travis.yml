@@ -23,7 +23,8 @@ before_script:
   - php ezpublish/console --env=behat assetic:dump
   - ENVIRONMENT=behat
   - php ezpublish/console --no-interaction --env=behat ezpublish:test:init_db
-  - php ezpublish/console --no-interaction --env=behat server:run -r ../bin/ezrouter.php localhost:9898
+  - php ezpublish/console --no-interaction --env=behat server:run -r ../bin/ezrouter.php localhost:9898 &
+  - sleep 3
 
 # execute phpunit as the script command
 script: "bin/behat $TEST_PATH"
