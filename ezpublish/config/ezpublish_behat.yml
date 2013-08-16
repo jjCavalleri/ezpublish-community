@@ -18,7 +18,6 @@ ezpublish:
             database:
                 type: mysql
                 user: root
-                password: publish44
                 server: localhost
                 database_name: behattestdb
             languages: [eng-GB, eng-US]
