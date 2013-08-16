@@ -13,12 +13,13 @@ env:
 branches:
   only:
     - master
-/
+
 # setup requirements for running tests
 before_script:
   - mysql -e "CREATE DATABASE IF NOT EXISTS behattestdb;" -uroot
+  - composer install --dev --prefer-dist --no-scripts
   - ./bin/behat_prepare_legacy.sh
-  - composer install --dev --prefer-dist
+  - composer run-script --dev post-install-cmd
   - php ezpublish/console --env=behat assetic:dump
   - ENVIRONMENT=behat
   - php ezpublish/console --no-interaction --env=behat ezpublish:test:init_db

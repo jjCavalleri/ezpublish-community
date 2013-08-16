@@ -30,7 +30,7 @@ ln -s ../../ezpublish_legacy_packages/ezwt/packages/ezwt_extension/ezextension/e
 
 cd ..
 
-
+# Fix folder permissions
 ./bin/modfix.sh
 
 # Generate extensions autoload
