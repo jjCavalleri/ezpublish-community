@@ -21,23 +21,29 @@ before_install:
   - unzip -o sahi_20130429.zip -d  ~
   - rm sahi_20130429.zip
   - sudo chmod +x ~/sahi/bin/sahi.sh
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 
 # setup requirements for running tests
+# apache, eZ Publish legacy, database, sahi
 before_script:
   - mysql -e "CREATE DATABASE IF NOT EXISTS behattestdb;" -uroot
   - composer install --dev --prefer-dist --no-scripts
-  - ./bin/behat_prepare_legacy.sh
+  - ./bin/.travis/prepare_legacy.sh
+#  - ./bin/.travis/configure_apache2.sh
   - composer run-script --dev post-install-cmd
   - php ezpublish/console --env=behat assetic:dump
-  - "export ENVIRONMENT=behat"
-  - "export DISPLAY=:99.0"
   - php ezpublish/console --no-interaction --env=behat ezpublish:test:init_db
-  - php ezpublish/console --no-interaction --env=behat server:run -r ../bin/ezrouter.php localhost:9898 &
+#  - php ezpublish/console --no-interaction --env=behat server:run -r ../bin/.travis/ezrouter_behat.php localhost:8000 --process-isolation &
+  - cp -f bin/.travis/sahi/browser_types.xml-dist ~/sahi/userdata/config/browser_types.xml
   - cd ~/sahi/bin
   - sh -e ./sahi.sh &
-  - cd -
-  - sleep 3
+  - cd - && cd web/
+  - php -S localhost:8000 ../bin/.travis/ezrouter.php &
+  - cd ..
+  - sleep 4
+# Debug
+  - curl --get "http://localhost:8000/"
 
 # execute phpunit as the script command
 script: "bin/behat $TEST_SUIT"

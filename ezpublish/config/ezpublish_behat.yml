@@ -20,7 +20,7 @@ ezpublish:
                 user: root
                 server: localhost
                 database_name: behattestdb
-            languages: [eng-GB, eng-US]
+            languages: [eng-GB]
             var_dir: var/behat_site
         behat_site:
             legacy_mode: false
